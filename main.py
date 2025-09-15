@@ -7,7 +7,7 @@ def streamlit_ui():
     modules_path.mkdir(exist_ok=True)
     modules = os.listdir(modules_path)
     st.title("AI/ML Modules")
-    selected_module = st.selectbox("Select a module", ['Select a Module'] + modules)
+    selected_module = st.selectbox("Select a module", ['Select a Module'] + sorted(modules))
     if selected_module != 'Select a Module':
         with open(modules_path / selected_module, 'r') as file:
             content = file.read()
