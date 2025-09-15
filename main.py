@@ -14,4 +14,5 @@ def streamlit_ui():
         st.write(content)
 
 if __name__ == "__main__":
+    st.set_page_config(page_title="AI/ML Modules", layout="wide")
     streamlit_ui()
