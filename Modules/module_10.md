@@ -8,14 +8,6 @@
 *   **Docker Components:** Dockerfile, Docker Image, Docker Container, Docker Hub.
 *   **Basic Docker Commands:** `build`, `run`, `ps`, `stop`, `rm`.
 
-**Learning Objectives:**
-By the end of this sub-topic, you will:
-*   Understand the fundamental concept of containerization and its importance in MLOps.
-*   Be familiar with Docker as the primary tool for containerization.
-*   Be able to create a `Dockerfile` to package a simple Python application.
-*   Know how to build Docker images and run them as containers.
-*   Understand basic commands for managing Docker containers.
-
 ---
 
 #### **1. Introduction to MLOps and Containerization**
@@ -41,7 +33,7 @@ This "sealed, portable box" is a **container**.
 
 **The Benefits of Containerization in MLOps:**
 
-1.  **Consistency & Reproducibility:** Your model runs the same way, everywhere – from your local machine to testing environments, and finally, to production servers. This eliminates dependency conflicts and ensures consistent results.
+1.  **Consistency & Reproducibility:** Your model runs the same way, everywhere - from your local machine to testing environments, and finally, to production servers. This eliminates dependency conflicts and ensures consistent results.
 2.  **Isolation:** Each container is an isolated environment, preventing conflicts between different applications or models running on the same host machine.
 3.  **Portability:** A container image can be moved seamlessly between different cloud providers, on-premise servers, or local machines without modification.
 4.  **Efficiency:** Containers are lightweight compared to traditional virtual machines (VMs) because they share the host OS kernel. This means faster startup times and more efficient resource utilization.
@@ -108,8 +100,8 @@ Your project structure should now look like this:
 
 ```
 my_ml_app_container/
-├── app.py
-└── requirements.txt
+|-- app.py
+|-- requirements.txt
 ```
 
 **Step 2: Create a Dockerfile**
@@ -302,7 +294,7 @@ So, while no direct equations apply, the underlying principles of scientific rig
 
 #### **5. Case Study: Deploying a Credit Card Fraud Detection Model**
 
-**Problem:** A financial institution has developed a sophisticated Machine Learning model (e.g., an XGBoost classifier) to detect fraudulent credit card transactions. The data science team uses Python 3.8, XGBoost 1.6, and Pandas for data processing. The operations team, responsible for deploying the model, uses a server that primarily runs Java applications and has Python 3.6 installed with an older version of XGBoost.
+**Problem:** A financial institution has developed a sophisticated Machine Learning model (e.g., a XGBoost classifier) to detect fraudulent credit card transactions. The data science team uses Python 3.8, XGBoost 1.6, and Pandas for data processing. The operations team, responsible for deploying the model, uses a server that primarily runs Java applications and has Python 3.6 installed with an older version of XGBoost.
 
 **Challenges Without Containerization:**
 
@@ -374,14 +366,6 @@ In essence, Docker transforms a complex, environment-dependent ML model into a s
     *   Performing inference.
     *   Returning predictions (JSON).
 *   **Testing API Endpoints.**
-
-**Learning Objectives:**
-By the end of this sub-topic, you will:
-*   Understand the role of REST APIs in modern software architecture and MLOps.
-*   Be able to explain why API exposure is crucial for machine learning models.
-*   Be proficient in using Flask to create a simple web API that loads a trained ML model and serves predictions.
-*   Be familiar with the advantages of FastAPI as an alternative for high-performance deployments.
-*   Know how to test your deployed model's API endpoints.
 
 ---
 
@@ -461,10 +445,10 @@ Create a new directory called `my_ml_api_app`. Inside this directory, we'll crea
 
 ```
 my_ml_api_app/
-├── app.py              # Our Flask API application
-├── requirements.txt    # Python dependencies
-├── train_model.py      # Script to train and save our model
-└── model.pkl           # The trained model (will be generated)
+|-- app.py              # Our Flask API application
+|-- requirements.txt    # Python dependencies
+|-- train_model.py      # Script to train and save our model
+|-- model.pkl           # The trained model (will be generated)
 ```
 
 **Step 1: Train and Save a Simple Model (`train_model.py`)**
@@ -558,7 +542,7 @@ def predict():
     # Expected input format: {"features": [f1, f2, f3, f4]}
     # Example: {"features": [5.1, 3.5, 1.4, 0.2]}
     if "features" not in data or not isinstance(data["features"], list):
-        return jsonify({"error": "Invalid input format. Expected {\"features\": [f1, f2, f3, f4]}"}), 400
+        return jsonify({"error": "Invalid input format. Expected {'features': [f1, f2, f3, f4]}"}), 400
 
     features = data["features"]
 
@@ -653,6 +637,7 @@ While the Flask app is running in one terminal, open another terminal or use a t
     curl -X POST -H "Content-Type: application/json" -d '{"features": [5.1, 3.5, 1.4, 0.2]}' http://localhost:5000/predict
     ```
     (This input corresponds to an Iris Setosa flower)
+
     **Expected Output:**
     ```json
     {"predicted_class_name":"setosa","prediction":0,"probabilities":{"setosa":0.9997973710776856,"versicolor":0.0002026288673324637,"virginica":3.351239920194605e-08}}
@@ -663,7 +648,7 @@ While the Flask app is running in one terminal, open another terminal or use a t
     ```bash
     curl -X POST -H "Content-Type: application/json" -d '{"features": [6.0, 2.7, 4.2, 1.3]}' http://localhost:5000/predict
     ```
-    **Expected Output (example):**
+    **Expected Output:**
     ```json
     {"predicted_class_name":"versicolor","prediction":1,"probabilities":{"setosa":0.003923727931669229,"versicolor":0.9404222045610531,"virginica":0.055654067507277636}}
     ```
@@ -874,14 +859,6 @@ This case study exemplifies how API deployment, often combined with containeriza
 *   **Introduction to GitHub Actions:** Workflows, Events, Jobs, Steps, Actions, Runners.
 *   **Designing a Basic CI/CD Pipeline:** Testing Python code, building Docker images.
 
-**Learning Objectives:**
-By the end of this sub-topic, you will:
-*   Understand the principles and benefits of Continuous Integration and Continuous Delivery/Deployment.
-*   Be able to explain how CI/CD pipelines contribute to robust MLOps practices.
-*   Learn to write unit tests for your Python applications.
-*   Be proficient in defining a basic CI/CD workflow using GitHub Actions to automate testing and image building for your containerized ML API.
-*   Appreciate the importance of automation in maintaining high-quality and reliable ML systems.
-
 ---
 
 #### **1. Introduction to CI/CD: The Backbone of Modern Software Delivery**
@@ -959,14 +936,14 @@ Let's adapt our `my_ml_api_app` from the previous sub-topic to include automated
 
 ```
 my_ml_api_app/
-├── .github/
-│   └── workflows/
-│       └── ci_pipeline.yml  # Our GitHub Actions workflow
-├── app.py                   # Our Flask API application
-├── requirements.txt         # Python dependencies
-├── train_model.py           # Script to train and save our model
-├── model.pkl                # The trained model (generated by train_model.py)
-└── test_app.py              # New: Unit and integration tests for app.py
+|-- .github/
+|   |-- workflows/
+|       |-- ci_pipeline.yml  # Our GitHub Actions workflow
+|-- app.py                   # Our Flask API application
+|-- requirements.txt         # Python dependencies
+|-- train_model.py           # Script to train and save our model
+|-- model.pkl                # The trained model (generated by train_model.py)
+|-- test_app.py              # New: Unit and integration tests for app.py
 ```
 
 **Step 1: Add Unit and Integration Tests (`test_app.py`)**
@@ -1374,7 +1351,524 @@ In summary, CI/CD is about applying engineering discipline and principles of aut
 
 ---
 
-#### **Sub-topic 4: Model Monitoring & Versioning: Tracking model performance in production and managing different versions of models and data**
+#### **Sub-topic 3: Experiment Tracking (MLflow)**
+
+Experiment Tracking is about documenting the *creation context* of your models. It's the protocol that ensures you understand *how* a model was built, *what* went into it, and *how well* it performed under specific conditions. This is crucial for reproducibility, collaboration, and making informed decisions about which models to promote to production.
+
+#### **Key Concepts**
+*   **The Need for Experiment Tracking:** Why simply running Python scripts isn't enough for professional ML development.
+*   **Reproducibility and Auditability:** Ensuring that results can be recreated and validated.
+*   **MLflow Overview:** Introduction to its core components (Tracking, Projects, Models, Model Registry).
+*   **MLflow Tracking:**
+    *   **Runs:** The fundamental unit of execution in MLflow.
+    *   **Parameters:** Logging hyperparameters and configuration settings.
+    *   **Metrics:** Recording model performance indicators (accuracy, loss, F1-score, etc.).
+    *   **Artifacts:** Storing arbitrary output files (models, plots, data slices, etc.).
+*   **MLflow UI:** Interacting with logged experiments through a web interface.
+
+---
+
+#### **1. The Challenge of ML Experimentation**
+
+Imagine you're developing a machine learning model. You'll likely:
+1.  Try different algorithms (Logistic Regression, Random Forest, XGBoost).
+2.  Experiment with various hyperparameters for each algorithm (e.g., `n_estimators`, `max_depth` for Random Forest).
+3.  Preprocess data in different ways (scaling, encoding, feature selection).
+4.  Use various evaluation metrics depending on the problem (accuracy, precision, recall, F1, ROC-AUC).
+5.  Generate plots, save trained models, and potentially different versions of your dataset.
+
+Without a systematic approach, answering questions like:
+*   "Which set of hyperparameters gave me the best F1-score last week?"
+*   "Can I reproduce the exact model that achieved X performance?"
+*   "Why did model A perform better than model B?"
+*   "Where is the trained model file for version 2.1 of my pipeline?"
+
+...becomes incredibly difficult, leading to wasted time, lost insights, and unreliable deployments. This is where **Experiment Tracking** comes in.
+
+#### **2. What is Experiment Tracking?**
+
+Experiment tracking is the process of systematically recording all relevant information about your machine learning experiments. This includes:
+*   **Code Versions:** The specific code used for training.
+*   **Data Versions:** The dataset or data slice used.
+*   **Parameters:** Hyperparameters, configuration settings.
+*   **Metrics:** Performance indicators (loss, accuracy, AUC, etc.).
+*   **Outputs (Artifacts):** Trained models, plots, data transformations, evaluation reports.
+*   **Environment:** Libraries, hardware used (less common in basic tracking but important for reproducibility).
+
+Its primary goals are **reproducibility**, **comparability**, and **auditability**. It ensures that your models aren't "black boxes" of development but rather well-documented artifacts with a clear history. This is a core "protocol" for establishing trust and reliability in your models.
+
+#### **3. Introducing MLflow**
+
+**MLflow** is an open-source platform for managing the end-to-end machine learning lifecycle. It's designed to address the challenges of experiment tracking, reproducibility, and deployment.
+
+MLflow consists of four main components:
+1.  **MLflow Tracking:** Records and queries experiments: code, data, config, and results.
+2.  **MLflow Projects:** Packages ML code in a reusable, reproducible format.
+3.  **MLflow Models:** A convention for packaging machine learning models in multiple flavors (e.g., scikit-learn, TensorFlow, PyTorch, ONNX) for diverse deployment tools.
+4.  **MLflow Model Registry:** A centralized hub to collaboratively manage the full lifecycle of MLflow Models, including versioning, stage transitions (Staging, Production), and annotations.
+
+For now, we'll focus heavily on **MLflow Tracking**.
+
+#### **4. MLflow Tracking: Core Concepts**
+
+MLflow Tracking revolves around the concept of a **Run**.
+
+*   **Runs:** A "Run" is a single execution of your machine learning code. It's the primary unit of organization in MLflow. Each run captures:
+    *   **Parameters:** Key-value input parameters, typically hyperparameters like `learning_rate`, `n_estimators`, `max_depth`.
+    *   **Metrics:** Key-value numerical metrics, typically evaluation metrics like `accuracy`, `loss`, `F1-score`, `RMSE`. Metrics can be updated throughout the run (e.g., epoch loss).
+    *   **Artifacts:** Output files of any format (e.g., trained model files, plots, CSVs, images).
+    *   **Source:** The code file or notebook that initiated the run, along with its version (if using Git).
+    *   **Start & End Time:** When the run began and finished.
+    *   **Status:** Whether the run succeeded, failed, or is running.
+
+An MLflow **Experiment** is simply a collection of runs. By default, all runs go into a "Default" experiment, but you can organize them into named experiments for better logical grouping (e.g., "Customer Churn Prediction," "Image Classification with CNNs").
+
+**How MLflow Stores Data:**
+*   By default, MLflow stores tracking data (parameters, metrics, run info) in a local directory called `mlruns/` and uses an SQLite database within it.
+*   Artifacts are also stored within `mlruns/` by default.
+*   For collaborative or production setups, you'd typically configure MLflow to use a remote tracking server (e.g., a PostgreSQL database) and a shared artifact store (e.g., S3, Azure Blob Storage, GCS). We'll stick to the local setup for learning.
+
+---
+
+#### **5. Python Code Implementation: MLflow Tracking in Action**
+
+Let's walk through installing MLflow and using its tracking capabilities.
+
+**Step 1: Installation**
+
+First, ensure you have MLflow installed.
+
+```python
+# Install mlflow if you haven't already
+%pip install mlflow scikit-learn pandas numpy matplotlib
+```
+
+*(Note: `%pip` is used in Jupyter/IPython environments. In a regular terminal, use `pip install mlflow scikit-learn pandas numpy matplotlib`)*
+
+---
+
+**Step 2: Basic Experiment Tracking**
+
+Let's simulate a simple machine learning experiment - training a Logistic Regression model on a synthetic dataset.
+
+```python
+import mlflow
+import mlflow.sklearn
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import matplotlib.pyplot as plt
+import os
+
+# Set a random seed for reproducibility
+np.random.seed(42)
+
+# Create a synthetic dataset
+# We'll create a simple binary classification problem
+n_samples = 1000
+X = np.random.rand(n_samples, 5) * 10
+y = (X[:, 0] + X[:, 1] - X[:, 2] + np.random.randn(n_samples) * 5 > 15).astype(int)
+
+# Convert to DataFrame for better handling
+df = pd.DataFrame(X, columns=[f'feature_{i}' for i in range(5)])
+df['target'] = y
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(df.drop('target', axis=1), df['target'], test_size=0.2, random_state=42)
+
+print("Data created and split.")
+print(f"X_train shape: {X_train.shape}, y_train shape: {y_train.shape}")
+print(f"X_test shape: {X_test.shape}, y_test shape: {y_test.shape}")
+print("-" * 30)
+
+# Define experiment parameters
+params = {
+    "solver": "liblinear",
+    "penalty": "l1",
+    "C": 0.1,
+    "random_state": 42
+}
+
+# Define an experiment name (optional, but good practice)
+experiment_name = "Logistic Regression Basic Demo"
+mlflow.set_experiment(experiment_name)
+
+print(f"Starting MLflow experiment '{experiment_name}'...")
+
+# Start an MLflow run
+with mlflow.start_run():
+    run_id = mlflow.active_run().info.run_id
+    print(f"MLflow Run ID: {run_id}")
+
+    # Log parameters
+    print("Logging parameters...")
+    mlflow.log_params(params)
+
+    # Train the model
+    print("Training model...")
+    model = LogisticRegression(**params)
+    model.fit(X_train, y_train)
+
+    # Make predictions
+    y_pred = model.predict(X_test)
+
+    # Calculate metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred)
+    recall = recall_score(y_test, y_pred)
+    f1 = f1_score(y_test, y_pred)
+
+    # Log metrics
+    print("Logging metrics...")
+    mlflow.log_metric("accuracy", accuracy)
+    mlflow.log_metric("precision", precision)
+    mlflow.log_metric("recall", recall)
+    mlflow.log_metric("f1_score", f1)
+
+    # Log the trained model (as an artifact)
+    print("Logging model artifact...")
+    mlflow.sklearn.log_model(model, "logistic_regression_model")
+
+    # Create and log a simple plot (as an artifact)
+    print("Logging plot artifact...")
+    fig, ax = plt.subplots(figsize=(8, 6))
+    pd.Series(y_pred).value_counts().plot(kind='bar', ax=ax, title='Predicted Class Distribution')
+    plt.tight_layout()
+    plot_path = "predicted_class_distribution.png"
+    plt.savefig(plot_path)
+    mlflow.log_artifact(plot_path)
+    plt.close(fig) # Close the figure to free up memory
+
+    print(f"\nModel training and logging complete for Run ID: {run_id}")
+    print(f"Accuracy: {accuracy:.4f}, F1-score: {f1:.4f}")
+
+# After the `with` block, the run is automatically ended.
+
+print("\nTo view the MLflow UI, run 'mlflow ui' in your terminal from the directory containing 'mlruns'.")
+print("Then open your web browser to http://localhost:5000 (or the address provided by mlflow ui).")
+
+```
+
+**Expected Output of the code above (actual metric values may vary slightly due to random data generation):**
+```
+Data created and split.
+X_train shape: (800, 5), y_train shape: (800,)
+X_test shape: (200, 5), y_test shape: (200,)
+------------------------------
+Starting MLflow experiment 'Logistic Regression Basic Demo'...
+MLflow Run ID: [unique_alphanumeric_id]
+Logging parameters...
+Training model...
+Logging metrics...
+Logging model artifact...
+Logging plot artifact...
+
+Model training and logging complete for Run ID: [unique_alphanumeric_id]
+Accuracy: 0.8100, F1-score: 0.7606
+
+To view the MLflow UI, run 'mlflow ui' in your terminal from the directory containing 'mlruns'.
+Then open your web browser to http://localhost:5000 (or the address provided by mlflow ui).
+```
+
+After running the Python script, you'll see a new directory named `mlruns/` created in the same location as your script. Inside `mlruns/`, you'll find a directory for your experiment (`Logistic Regression Basic Demo/`) and then a directory for each run (named after its `run_id`).
+
+To interact with the **MLflow UI**:
+1.  Open your terminal or command prompt.
+2.  Navigate to the directory *containing* the `mlruns/` folder.
+3.  Run the command: `mlflow ui`
+4.  Open your web browser and go to `http://localhost:5000` (or the address shown in your terminal).
+
+You will see:
+*   A list of experiments on the left.
+*   Your "Logistic Regression Basic Demo" experiment.
+*   When you click on it, a table showing all runs within that experiment, with columns for parameters, metrics, start time, etc.
+*   You can select multiple runs to compare their metrics and parameters side-by-side.
+*   Clicking on an individual run will show all its details: logged parameters, metrics (including plots over time if you log the same metric multiple times), source code, and artifacts (your model and plot file).
+
+---
+
+**Step 3: Comparing Multiple Runs**
+
+Let's run the experiment again with different hyperparameters to see how MLflow helps us compare them.
+
+```python
+import mlflow
+import mlflow.sklearn
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import matplotlib.pyplot as plt
+import os
+
+# Assume data and split from previous step are available or re-run data creation
+# Create a synthetic dataset
+n_samples = 1000
+X = np.random.rand(n_samples, 5) * 10
+y = (X[:, 0] + X[:, 1] - X[:, 2] + np.random.randn(n_samples) * 5 > 15).astype(int)
+df = pd.DataFrame(X, columns=[f'feature_{i}' for i in range(5)])
+df['target'] = y
+X_train, X_test, y_train, y_test = train_test_split(df.drop('target', axis=1), df['target'], test_size=0.2, random_state=42)
+
+
+experiment_name = "Logistic Regression Basic Demo" # Use the same experiment name
+mlflow.set_experiment(experiment_name)
+
+print(f"Starting MLflow runs for experiment '{experiment_name}' with different parameters...")
+
+# --- Run 1: Existing parameters, but demonstrating multiple runs ---
+params1 = {
+    "solver": "liblinear",
+    "penalty": "l1",
+    "C": 0.1,
+    "random_state": 42
+}
+
+with mlflow.start_run(run_name="Run_C_0.1_L1"): # Give a custom name for easier identification
+    mlflow.log_params(params1)
+    model1 = LogisticRegression(**params1)
+    model1.fit(X_train, y_train)
+    y_pred1 = model1.predict(X_test)
+    accuracy1 = accuracy_score(y_test, y_pred1)
+    f1_1 = f1_score(y_test, y_pred1)
+    mlflow.log_metric("accuracy", accuracy1)
+    mlflow.log_metric("f1_score", f1_1)
+    mlflow.sklearn.log_model(model1, "logistic_regression_model")
+    print(f"Run_C_0.1_L1 completed. Accuracy: {accuracy1:.4f}, F1-score: {f1_1:.4f}")
+
+# --- Run 2: Change C parameter ---
+params2 = {
+    "solver": "liblinear",
+    "penalty": "l1",
+    "C": 1.0, # Increased regularization strength
+    "random_state": 42
+}
+
+with mlflow.start_run(run_name="Run_C_1.0_L1"):
+    mlflow.log_params(params2)
+    model2 = LogisticRegression(**params2)
+    model2.fit(X_train, y_train)
+    y_pred2 = model2.predict(X_test)
+    accuracy2 = accuracy_score(y_test, y_pred2)
+    f1_2 = f1_score(y_test, y_pred2)
+    mlflow.log_metric("accuracy", accuracy2)
+    mlflow.log_metric("f1_score", f1_2)
+    mlflow.sklearn.log_model(model2, "logistic_regression_model")
+    print(f"Run_C_1.0_L1 completed. Accuracy: {accuracy2:.4f}, F1-score: {f1_2:.4f}")
+
+# --- Run 3: Change penalty to L2 ---
+params3 = {
+    "solver": "liblinear",
+    "penalty": "l2", # Changed penalty
+    "C": 0.5,
+    "random_state": 42
+}
+
+with mlflow.start_run(run_name="Run_C_0.5_L2"):
+    mlflow.log_params(params3)
+    model3 = LogisticRegression(**params3)
+    model3.fit(X_train, y_train)
+    y_pred3 = model3.predict(X_test)
+    accuracy3 = accuracy_score(y_test, y_pred3)
+    f1_3 = f1_score(y_test, y_pred3)
+    mlflow.log_metric("accuracy", accuracy3)
+    mlflow.log_metric("f1_score", f1_3)
+    mlflow.sklearn.log_model(model3, "logistic_regression_model")
+    print(f"Run_C_0.5_L2 completed. Accuracy: {accuracy3:.4f}, F1-score: {f1_3:.4f}")
+
+print("\nMultiple runs completed. Check the MLflow UI to compare them.")
+
+```
+
+**Expected Output (metric values will vary):**
+```
+Starting MLflow runs for experiment 'Logistic Regression Basic Demo' with different parameters...
+Run_C_0.1_L1 completed. Accuracy: 0.8100, F1-score: 0.7606
+Run_C_1.0_L1 completed. Accuracy: 0.8200, F1-score: 0.7778
+Run_C_0.5_L2 completed. Accuracy: 0.8050, F1-score: 0.7436
+
+Multiple runs completed. Check the MLflow UI to compare them.
+```
+
+Now, refresh your MLflow UI (`http://localhost:5000`). You will see three distinct runs for the "Logistic Regression Basic Demo" experiment. You can select all three using the checkboxes and click "Compare" to see a detailed comparison table and parallel coordinates plot, which is incredibly useful for hyperparameter tuning.
+
+#### **6. Programmatic Access to MLflow Runs**
+
+You can also query MLflow runs programmatically, which is useful for automating tasks like finding the best model or generating reports.
+
+```python
+import mlflow
+
+# Point to the local MLflow tracking URI (default)
+tracking_uri = "mlruns" # This is the default local folder
+
+# You can also set it explicitly:
+# mlflow.set_tracking_uri("file://" + os.path.abspath(tracking_uri))
+
+# Ensure the experiment exists and fetch its ID
+experiment_name = "Logistic Regression Basic Demo"
+experiment = mlflow.get_experiment_by_name(experiment_name)
+
+if experiment:
+    print(f"Found experiment '{experiment_name}' with ID: {experiment.experiment_id}")
+    # Search for runs within this experiment
+    runs = mlflow.search_runs(experiment_ids=[experiment.experiment_id],
+                              order_by=["metrics.f1_score DESC"], # Order by F1-score descending
+                              max_results=5) # Get top 5 runs
+
+    print("\nTop 5 runs by F1-score:")
+    for i, run in runs.iterrows():
+        print(f"--- Run {i+1} ---")
+        print(f"  Run ID: {run.run_id}")
+        print(f"  Run Name: {run.tags.get('mlflow.runName', 'N/A')}") # Access run name from tags
+        print(f"  Parameters:")
+        for param, value in run.params.items():
+            print(f"    {param}: {value}")
+        print(f"  Metrics:")
+        for metric, value in run.metrics.items():
+            print(f"    {metric}: {value:.4f}")
+        print(f"  Artifact URI: {run.info.artifact_uri}")
+        print("-" * 20)
+
+    # Example: Load the best model
+    if not runs.empty:
+        best_run = runs.iloc[0]
+        best_run_id = best_run.run_id
+        best_f1 = best_run.metrics["f1_score"]
+        print(f"\nBest model (Run ID: {best_run_id}) has F1-score: {best_f1:.4f}")
+
+        # Construct the artifact path to the model
+        # MLflow models are typically logged in a sub-directory, e.g., 'logistic_regression_model'
+        # The path will be something like 'mlruns/<exp_id>/<run_id>/artifacts/logistic_regression_model'
+        model_path = f"runs:/{best_run_id}/logistic_regression_model"
+        print(f"Loading model from: {model_path}")
+        try:
+            loaded_model = mlflow.sklearn.load_model(model_path)
+            print("Model loaded successfully!")
+            # You can now use loaded_model to make predictions
+            # For example: print(loaded_model.predict(X_test.head(1)))
+        except Exception as e:
+            print(f"Error loading model: {e}")
+            print("Ensure that the MLflow tracking server is running or that the 'mlruns' folder is accessible.")
+            print("You might need to adjust the 'model_path' if your model was logged under a different artifact subdirectory.")
+else:
+    print(f"Experiment '{experiment_name}' not found.")
+```
+
+**Expected Output (IDs and values will reflect your runs):**
+```
+Found experiment 'Logistic Regression Basic Demo' with ID: [experiment_id]
+
+Top 5 runs by F1-score:
+--- Run 1 ---
+  Run ID: [run_id_for_best_f1]
+  Run Name: Run_C_1.0_L1
+  Parameters:
+    solver: liblinear
+    penalty: l1
+    C: 1.0
+    random_state: 42
+  Metrics:
+    accuracy: 0.8200
+    f1_score: 0.7778
+    precision: 0.7778
+    recall: 0.7778
+  Artifact URI: file:///path/to/mlruns/[exp_id]/[run_id_for_best_f1]/artifacts
+--------------------
+--- Run 2 ---
+  Run ID: [run_id_for_second_best_f1]
+  Run Name: Run_C_0.1_L1
+  Parameters:
+    solver: liblinear
+    penalty: l1
+    C: 0.1
+    random_state: 42
+  Metrics:
+    accuracy: 0.8100
+    f1_score: 0.7606
+    precision: 0.7606
+    recall: 0.7606
+  Artifact URI: file:///path/to/mlruns/[exp_id]/[run_id_for_second_best_f1]/artifacts
+--------------------
+--- Run 3 ---
+  Run ID: [run_id_for_third_best_f1]
+  Run Name: Run_C_0.5_L2
+  Parameters:
+    solver: liblinear
+    penalty: l2
+    C: 0.5
+    random_state: 42
+  Metrics:
+    accuracy: 0.8050
+    f1_score: 0.7436
+    precision: 0.7436
+    recall: 0.7436
+  Artifact URI: file:///path/to/mlruns/[exp_id]/[run_id_for_third_best_f1]/artifacts
+--------------------
+
+Best model (Run ID: [run_id_for_best_f1]) has F1-score: 0.7778
+Loading model from: runs:/[run_id_for_best_f1]/logistic_regression_model
+Model loaded successfully!
+```
+
+This demonstrates how MLflow allows you not only to track experiments but also to programmatically query and retrieve models, which is essential for automation and integration into deployment pipelines.
+
+---
+
+#### **7. Case Study: Hyperparameter Tuning for Customer Churn Prediction**
+
+**Scenario:** A telecom company wants to predict which customers are likely to churn (cancel their service) to proactively offer retention incentives. They have a dataset with customer demographics, usage patterns, and historical churn information. The data science team is experimenting with different models and hyperparameters to achieve the best prediction accuracy and recall for identifying churners.
+
+**Challenge without Experiment Tracking:**
+*   A data scientist trains 5 different models (Logistic Regression, Random Forest, Gradient Boosting, etc.) with 10 different hyperparameter combinations each, resulting in 50 experiments.
+*   They record results in a spreadsheet or personal notes.
+*   Two weeks later, the business team asks for the exact model (and its training configuration) that achieved the highest recall on the validation set.
+*   The data scientist struggles to pinpoint the exact code version, hyperparameters, or even locate the specific saved model file. They might have accidentally overwritten model files or forgotten which row in the spreadsheet corresponds to which run.
+
+**Solution with MLflow Experiment Tracking:**
+1.  **Define Experiment:** Create an MLflow experiment named "Customer Churn Prediction".
+2.  **Iterate and Log:** For each model and hyperparameter combination:
+    *   Start an `mlflow.start_run()`.
+    *   Log all hyperparameters using `mlflow.log_params()`.
+    *   Train the model.
+    *   Calculate evaluation metrics (Accuracy, Precision, Recall, F1-score, ROC-AUC) on a validation set and `mlflow.log_metrics()` for each.
+    *   Log the trained model using `mlflow.sklearn.log_model()`.
+    *   Log a confusion matrix plot or ROC curve as an artifact using `mlflow.log_artifact()`.
+    *   Potentially log feature importance plots.
+3.  **Review and Compare:** The data science team opens the MLflow UI. They can:
+    *   Filter runs by specific model types.
+    *   Sort runs by their "recall" metric (descending).
+    *   Select the top-performing runs and compare their parameters side-by-side to understand which hyperparameters or model architectures lead to better recall.
+    *   Click on the best run to instantly retrieve its exact hyperparameters, metrics, and most importantly, the trained model artifact and associated plots.
+4.  **Reproducibility:** If the business team asks for the best model, the data scientist can easily identify its `run_id`, programmatically load the exact model using `mlflow.sklearn.load_model(f"runs:/{run_id}/model_name")`, and even access the exact code/parameters used to train it. This ensures that the model promoted to production is precisely the one that achieved the desired performance and is fully auditable.
+
+---
+
+#### **8. Summarized Notes for Revision**
+
+*   **What is Experiment Tracking?** Systematically recording parameters, metrics, code, and artifacts of ML experiments for reproducibility, comparability, and auditability.
+*   **Why is it Important?** Manages complexity of ML development, prevents loss of insights, enables easy comparison of models, and ensures reproducibility of results.
+*   **MLflow:** An open-source platform for ML lifecycle management.
+    *   **MLflow Tracking (Our Focus):** Component for logging and querying experiments.
+    *   **Core Concepts:**
+        *   **Run:** A single execution of ML code, the fundamental unit of tracking.
+        *   **Experiment:** A collection of related runs.
+        *   **Parameters:** Input values to the model/training process (e.g., hyperparameters), logged with `mlflow.log_param()` or `mlflow.log_params()`.
+        *   **Metrics:** Numerical evaluation results (e.g., accuracy, loss), logged with `mlflow.log_metric()`. Can be logged multiple times for time-series viewing.
+        *   **Artifacts:** Output files (trained models, plots, data files), logged with `mlflow.log_artifact()` or specific integrations like `mlflow.sklearn.log_model()`.
+*   **Basic MLflow Workflow:**
+    1.  `mlflow.set_experiment("Experiment Name")` to group runs.
+    2.  `with mlflow.start_run():` block for each experiment iteration.
+    3.  Inside the block, use `mlflow.log_param()`, `mlflow.log_metric()`, `mlflow.log_artifact()`, etc.
+*   **MLflow UI:** A local web interface (run `mlflow ui` in terminal) to view, compare, and analyze logged runs, their parameters, metrics, and artifacts.
+*   **Programmatic Access:** `mlflow.search_runs()` allows querying runs and `mlflow.load_model()` retrieves models for inference or further use.
+
+---
+
+#### **Sub-topic 5: Model Monitoring & Versioning: Tracking model performance in production and managing different versions of models and data**
 
 **Key Concepts:**
 *   **The "Why" of Monitoring:** Performance decay, data drift, concept drift, data quality issues, bias.
